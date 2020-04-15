@@ -5,10 +5,12 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Plugin.Media;
 
 namespace Chatting
 {
@@ -28,6 +30,13 @@ namespace Chatting
         TextView msg10;
         static ProgressBar progress;
         int position;
+        ImageView img;
+
+        Button cameraButton;
+        Button locationButton;
+        Button currencyButton;
+
+        string filePath;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -69,16 +78,51 @@ namespace Chatting
 
             sendButton.Click += OnSendClick;
             
+            cameraButton = FindViewById<Button>(Resource.Id.cameraButton);
+            locationButton = FindViewById<Button>(Resource.Id.locationButton);
+            currencyButton = FindViewById<Button>(Resource.Id.currencyButton);
+            img = FindViewById<ImageView>(Resource.Id.img);
+
+            cameraButton.Click += CameraButton_Click;
+            locationButton.Click += LocationButton_Click;
+            currencyButton.Click += CurrencyButton_Click;
 
 
-
-
-
-
-
-         //   name.Text = ContactData.Instructors[position].Name;
+            //   name.Text = ContactData.Instructors[position].Name;
 
         }
+
+        private void CurrencyButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LocationButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        async void CameraButton_Click(object sender, EventArgs e)
+        {
+            await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsTakePhotoSupported)
+            {
+                Toast.MakeText(this, "Upload not suported ", ToastLength.Short).Show();
+                return;
+            }
+
+            var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small,
+                CompressionQuality = 40
+            });
+            filePath = file.Path;
+            byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+            Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+            img.SetImageBitmap(bitmap);
+        }
+
         private void OnSendClick(object sender, EventArgs e)
         {
             var position = Intent.GetIntExtra("PeoplePosition", -1);

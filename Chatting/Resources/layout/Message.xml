@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -94,6 +94,39 @@
             android:layout_height="wrap_content"
             android:id="@+id/msgEditText" />
     </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2" >
+        <Button
+            android:text="CAMERA"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/cameraButton" />
+        <Button
+            android:text="LOCATION"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/locationButton" />
+        <Button
+            android:text="CURRENCY $"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/currencyButton" />
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/img"
+            />
+
+    </LinearLayout>
+
+
+
     <Button
         android:text="Send Message"
         android:layout_width="match_parent"
