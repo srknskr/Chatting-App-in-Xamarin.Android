@@ -12,7 +12,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Plugin.Media;
- 
+ //
 namespace Chatting
 {
     [Activity(Label = "AddPersonActivity")]
