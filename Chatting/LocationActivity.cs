@@ -65,6 +65,7 @@ namespace Chatting
             accText = FindViewById<TextView>(Resource.Id.acc);
 
             LocationButton= FindViewById<Button>(Resource.Id.bntLocation);
+            LocationButton.Click += LocationButton_Click;
 
             altText.Text = "altitude";
             speedText.Text = "speed";
@@ -82,6 +83,11 @@ namespace Chatting
                 Log.Debug(TAG, "Have to request permission from the user. ");
                 RequestLocationPermission();
             }
+        }
+
+        private void LocationButton_Click(object sender, EventArgs e)
+        {
+            
         }
 
         protected override void OnResume()

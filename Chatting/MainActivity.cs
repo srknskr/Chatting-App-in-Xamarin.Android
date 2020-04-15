@@ -8,6 +8,8 @@ using System;
 using Android.Content;
 using Android;
 using System.Drawing;
+using Chatting.Services;
+using Android.Provider;
 
 namespace Chatting
 {
@@ -41,7 +43,26 @@ namespace Chatting
             FindViewById<Button>(Resource.Id.addPersonButton).Click += OnAddPersonClick;
             FindViewById<Button>(Resource.Id.aboutButton).Click += OnAboutClick;
 
+            /////////////////////////////////
+            string intentAction;
+            string title;
 
+            
+                intentAction = MediaStore.IntentActionStillImageCamera;
+                title = "Camera";
+            
+           
+
+            var intent = new Intent(this, typeof(ShakeToLaunchService));
+            intent.PutExtra("Title", title);
+            intent.PutExtra("Action", intentAction);
+            //intent.PutExtra("Notification", switchNotification.Checked);
+
+            StartService(intent);
+
+           
+
+            //////////////////
 
 
         }
