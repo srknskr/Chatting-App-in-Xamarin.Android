@@ -74,7 +74,7 @@ namespace Chatting
             intent.PutExtra("Image", image);
             SetResult(Result.Ok, intent);
 
-
+  //
             Finish();
         }
     }
