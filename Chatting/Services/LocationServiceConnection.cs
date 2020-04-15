@@ -6,7 +6,7 @@ using Android.Util;
 
 using Object = Java.Lang.Object;
 
-namespace Location.Droid.Services
+namespace Chatting.Services
 {
     public class LocationServiceConnection : Object, IServiceConnection
     {

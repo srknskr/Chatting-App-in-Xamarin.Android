@@ -2,7 +2,7 @@ using System;
 
 using Android.OS;
 
-namespace Location.Droid.Services
+namespace Chatting.Services
 {
     public class ServiceConnectedEventArgs : EventArgs
     {

@@ -1,8 +1,9 @@
 using System;
 
 using Android.OS;
+using Chatting;
 
-namespace Location.Droid.Services
+namespace Chatting.Services
 {
     //This is our Binder subclass, the LocationServiceBinder
     public class LocationServiceBinder : Binder

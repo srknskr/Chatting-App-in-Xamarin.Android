@@ -1,5 +1,5 @@
 using System;
-
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Locations;
@@ -7,7 +7,7 @@ using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
 
-namespace Location.Droid.Services
+namespace Chatting.Services
 {
     [Service]
     public class LocationService : Service, ILocationListener
@@ -87,7 +87,7 @@ namespace Location.Droid.Services
 
                 notificationManager.CreateNotificationChannel(chan);
 
-                StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
+           //     StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
             }
 
             return StartCommandResult.Sticky;

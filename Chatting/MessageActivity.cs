@@ -99,7 +99,8 @@ namespace Chatting
 
         private void LocationButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var intent = new Intent(this, typeof(LocationActivity));
+            StartActivity(intent);
         }
 
         async void CameraButton_Click(object sender, EventArgs e)
