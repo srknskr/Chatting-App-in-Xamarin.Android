@@ -139,7 +139,8 @@ namespace Chatting
         }
         private void CurrencyButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var intent = new Intent(this, typeof(CurrencyActivity));
+            StartActivity(intent);
         }
 
         private void LocationButton_Click(object sender, EventArgs e)
