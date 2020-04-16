@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Plugin.Media;
+using Android.Support.V4.App;
+
+using Java.Lang;
+using Android.Media;
 
 namespace Chatting
 {
@@ -37,8 +36,34 @@ namespace Chatting
         Button currencyButton;
 
         string filePath;
+
+
+
+
+
+
+
+
+
+        // Unique ID for our notification: 
+        static readonly int NOTIFICATION_ID = 1000;
+        static readonly string CHANNEL_ID = "location_notification";
+        internal static readonly string COUNT_KEY = "count";
+
+        // Number of times the button is tapped (starts with first tap):
+        int count = 1;
+
+
+
+
+
+
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            CreateNotificationChannel();
+
+
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Message);
 
@@ -77,7 +102,7 @@ namespace Chatting
             progress.Progress = messages.Count * 10;
 
             sendButton.Click += OnSendClick;
-            
+
             cameraButton = FindViewById<Button>(Resource.Id.cameraButton);
             locationButton = FindViewById<Button>(Resource.Id.locationButton);
             currencyButton = FindViewById<Button>(Resource.Id.currencyButton);
@@ -92,6 +117,26 @@ namespace Chatting
 
         }
 
+        void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification 
+                // channel on older versions of Android.
+                return;
+            }
+
+            var name = Resources.GetString(Resource.String.channel_name);
+            var description = GetString(Resource.String.channel_description);
+            var channel = new NotificationChannel(CHANNEL_ID, name, NotificationImportance.Default)
+            {
+                Description = description
+            };
+
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
+        }
         private void CurrencyButton_Click(object sender, EventArgs e)
         {
             throw new NotImplementedException();
@@ -187,6 +232,52 @@ namespace Chatting
                 else
                     Toast.MakeText(Application.Context, "You have reached the message limit ", ToastLength.Long).Show();
             }
+
+
+
+
+            // Pass the current button press count value to the next activity:
+            var valuesForActivity = new Bundle();
+            valuesForActivity.PutInt(COUNT_KEY, count);
+
+            // When the user clicks the notification, SecondActivity will start up.
+            var resultIntent = new Intent(this, typeof(MessageActivity));
+            resultIntent.PutExtra("PeoplePosition", position);
+            //    StartActivity(resultIntent);
+
+            // Pass some values to SecondActivity:
+            resultIntent.PutExtras(valuesForActivity);
+
+            // Construct a back stack for cross-task navigation:
+            var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create(this);
+            stackBuilder.AddParentStack(Class.FromType(typeof(MessageActivity)));
+            stackBuilder.AddNextIntent(resultIntent);
+
+            // Create the PendingIntent with the back stack:            
+            var resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
+
+            // Build the notification:
+            var builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                          .SetAutoCancel(true) // Dismiss the notification from the notification area when the user clicks on it
+                          .SetContentIntent(resultPendingIntent) // Start up this activity when the user clicks the intent.
+                          .SetContentTitle("Button Clicked") // Set the title
+                          .SetNumber(count) // Display the count in the Content Info
+                          .SetSmallIcon(Resource.Drawable.messenger) // This is the icon to display
+                          .SetContentText($"You have {count} messages.") // the message to display.
+                          .SetVibrate(new long[] { 500, 1000 })
+                          .SetLights(Color.Red, 3000, 3000)
+                          .SetSound(Android.Net.Uri.Parse("uri://sadfasdfasdf.mp3"));
+                          
+
+
+            // Finally, publish the notification:
+            var notificationManager = NotificationManagerCompat.From(this);
+            notificationManager.Notify(NOTIFICATION_ID, builder.Build());
+
+            // Increment the button press count:
+            count++;
+
+
         }
 
         //private void OnDetailClick(object sender, EventArgs e)
