@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -8,19 +8,38 @@
     android:layout_height="match_parent"
     android:id="@+id/linearLayout1" >
     <TextView
-        android:text="Text"
+        android:text="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/currency1" />
     <TextView
-        android:text="Text"
+        android:text="TRY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/currency2" />
-    <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
+    <TextView
+        android:text="USD"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listView1" />
+        android:layout_height="wrap_content"
+        android:id="@+id/currency3" />
+    <TextView
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/currency4" />
+    <Button
+        android:text="pull currency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pullButton" />
+    <Button
+        android:text="send message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendCurrencyButton" />
+    <android.webkit.WebView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/webView1" />
+    
 </LinearLayout>

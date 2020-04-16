@@ -14,12 +14,16 @@ using Android.Widget;
 
 namespace Chatting
 {
-   
+
     [Activity(Label = "CurrencyActivity")]
     public class CurrencyActivity : Activity
     {
         TextView txt1;
         TextView txt2;
+        TextView txt3;
+        TextView txt4;
+        Button pull;
+        Button send;
         ListView ListViewItem;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,87 +31,81 @@ namespace Chatting
             SetContentView(Resource.Layout.Currency);
             // Create your application here
 
-            //txt1 = FindViewById<Button>(Resource.Id.currency1);
-            //txt2 = FindViewById<Button>(Resource.Id.currency2);
-            ListView ListViewItem= FindViewById<ListView>(Resource.Id.listView1);
+            txt1 = FindViewById<TextView>(Resource.Id.currency1);
+            txt2 = FindViewById<TextView>(Resource.Id.currency2);
+            txt3 = FindViewById<TextView>(Resource.Id.currency3);
+            txt4 = FindViewById<TextView>(Resource.Id.currency4);
+
+            pull= FindViewById<Button>(Resource.Id.pullButton);
+            send= FindViewById<Button>(Resource.Id.sendCurrencyButton);
+
+            pull.Click += Pull_Click;
+            send.Click += Send_Click;
+        }
+
+        private void Send_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Pull_Click(object sender, EventArgs e)
+        {
+             CurrencyConversion(1,"TRY","USD");
+        }
+
+        //private const string urlPattern = "http://rate-exchange-1.appspot.com/currency?from={0}&to={1}";
 
 
+        //public string CurrencyConversion(decimal amount, string fromCurrency, string toCurrency)
+        //{
+        //    string Output = "";
+        //    string fromCurrency1 = txt1.Text;
+        //    string toCurrency1 = txt2.Text;
+        //    decimal amount1 = Convert.ToDecimal(txt3.Text);
 
-            string url = "http://finance.yahoo.com/webservice/" +
-        "v1/symbols/allcurrencies/quote?format=xml";
-            try
+        //    // For other currency symbols see http://finance.yahoo.com/currency-converter/
+        //    // Construct URL to query the Yahoo! Finance API
+
+        //    const string urlPattern = "http://finance.yahoo.com/d/quotes.csv?s={0}{1}=X&f=l1";
+        //    string url = string.Format(urlPattern, fromCurrency1, toCurrency1);
+
+        //    // Get response as string
+        //    string response = new WebClient().DownloadString(url);
+
+        //    // Convert string to number
+        //    decimal exchangeRate =
+        //        decimal.Parse(response, System.Globalization.CultureInfo.InvariantCulture);
+
+        //    // Output the result
+        //    Output = (amount1 * exchangeRate).ToString();
+        //    txt4.Text = Output;
+
+        //    return Output;
+        //}
+
+
+        private const string urlPattern = "http://rate-exchange-1.appspot.com/currency?from={0}&to={1}";
+        public string CurrencyConversion(decimal amount, string fromCurrency, string toCurrency)
+        {
+            string url = string.Format(urlPattern, fromCurrency, toCurrency);
+            string Output = txt4.Text;
+            using (var wc = new WebClient())
             {
-                // Load the data.
-                XmlDocument doc = new XmlDocument();
-                doc.Load(url);
+                var json = wc.DownloadString(url);
 
-                // Process the resource nodes.
-                XmlNode root = doc.DocumentElement;
-                string xquery = "descendant::resource[@classname='Quote']";
-                foreach (XmlNode node in root.SelectNodes(xquery))
-                {
-                    const string name_query =
-                        "descendant::field[@name='name']";
-                    const string price_query =
-                        "descendant::field[@name='price']";
-                    string name =
-                        node.SelectSingleNode(name_query).InnerText;
-                    string price =
-                        node.SelectSingleNode(price_query).InnerText;
-                    decimal inverse = 1m / decimal.Parse(price);
+                Newtonsoft.Json.Linq.JToken token = Newtonsoft.Json.Linq.JObject.Parse(json);
+                decimal exchangeRate = (decimal)token.SelectToken("rate");
 
-                    ListViewItem item = lvwPrices.Items.Add(name);
-                    item.SubItems.Add(price);
-                    item.SubItems.Add(inverse.ToString("f6"));
-                }
-
-                // Sort.
-                lvwPrices.Sorting = SortOrder.Ascending;
-                lvwPrices.FullRowSelect = true;
+                Output = (amount * exchangeRate).ToString();
+                txt4.Text = Output;
+                return Output;
             }
-            catch (Exception ex)
-            {
-                //MessageBox.Show(ex.Message, "Read Error",
-                //    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-
-
-
-
-
-
-
-
         }
     }
 
-    //private const string urlPattern = "http://rate-exchange-1.appspot.com/currency?from={0}&to={1}";
-    //public string CurrencyConversion(decimal amount, string fromCurrency, string toCurrency)
-    //{
-    //    string Output = "";
-    //    string fromCurrency1 = txt1.Text;
-    //    string toCurrency1 = txt2.Text;
-    //    decimal amount1 = Convert.ToDecimal(txt1.Text);
 
-    //    // For other currency symbols see http://finance.yahoo.com/currency-converter/
-    //    // Construct URL to query the Yahoo! Finance API
-
-    //    const string urlPattern = "http://finance.yahoo.com/d/quotes.csv?s={0}{1}=X&f=l1";
-    //    string url = string.Format(urlPattern, fromCurrency1, toCurrency1);
-
-    //    // Get response as string
-    //    string response = new WebClient().DownloadString(url);
-
-    //    // Convert string to number
-    //    decimal exchangeRate =
-    //        decimal.Parse(response, System.Globalization.CultureInfo.InvariantCulture);
-
-    //    // Output the result
-    //    Output = (amount1 * exchangeRate).ToString();
-    //    textBox2.Text = Output;
-
-    //    return Output;
-    //}
+    }
+   
 
 
 
@@ -119,4 +117,4 @@ namespace Chatting
 
 
 
-}
+
