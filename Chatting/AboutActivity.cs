@@ -28,7 +28,7 @@ namespace Chatting
             var intent = new Intent();
 
             intent.SetAction(Intent.ActionView);
-            intent.SetData(Android.Net.Uri.Parse("http://srknskr.github.io"));
+            intent.SetData(Android.Net.Uri.Parse("https://github.com/srknskr/Chatting-App-on-Xamarin.Android"));
 
             StartActivity(intent);
         }
