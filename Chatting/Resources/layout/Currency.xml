@@ -7,26 +7,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/linearLayout1" >
-    <TextView
-        android:text="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/currency1" />
-    <TextView
-        android:text="TRY"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/currency2" />
+
+
     <TextView
         android:text="USD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/currency3" />
+        android:id="@+id/currency3"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textStyle="normal"
+        android:typeface="serif" />
     <TextView
         android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/currency4" />
+        android:id="@+id/currency4"
+        android:textColor="#fff50057"
+        android:textSize="50dp"
+        android:textStyle="italic"
+        android:typeface="sans" />
     <Button
         android:text="pull currency"
         android:layout_width="match_parent"
@@ -37,9 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sendCurrencyButton" />
-    <android.webkit.WebView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/webView1" />
+
     
 </LinearLayout>

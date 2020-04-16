@@ -18,8 +18,7 @@ namespace Chatting
     [Activity(Label = "CurrencyActivity")]
     public class CurrencyActivity : Activity
     {
-        TextView txt1;
-        TextView txt2;
+       
         TextView txt3;
         TextView txt4;
         Button pull;
@@ -31,8 +30,7 @@ namespace Chatting
             SetContentView(Resource.Layout.Currency);
             // Create your application here
 
-            txt1 = FindViewById<TextView>(Resource.Id.currency1);
-            txt2 = FindViewById<TextView>(Resource.Id.currency2);
+            
             txt3 = FindViewById<TextView>(Resource.Id.currency3);
             txt4 = FindViewById<TextView>(Resource.Id.currency4);
 
