@@ -14,9 +14,9 @@ namespace Chatting
 {
     public class Message
     {
-        public Message()
-        {
-        }
+        //public Message()
+        //{
+        //}
 
         public Message(string name, int count, string message1, string message2, string message3, string message4, string message5, string message6, string message7, string message8, string message9, string message10)
         {

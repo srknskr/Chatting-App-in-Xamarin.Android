@@ -43,7 +43,14 @@ namespace Chatting
 
         private void Send_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+          //  double dollar = Convert.ToDouble(txt4.Text);
+          string dollar = txt4.Text;
+            var intent = new Intent();
+            intent.PutExtra("Dollar", dollar);
+            SetResult(Result.Ok, intent);
+            Finish();
+
+
         }
 
         private void Pull_Click(object sender, EventArgs e)

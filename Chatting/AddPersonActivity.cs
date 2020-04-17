@@ -12,7 +12,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Plugin.Media;
- //
+using Bitmap = Android.Graphics.Bitmap;
+//
 namespace Chatting
 {
     [Activity(Label = "AddPersonActivity")]
@@ -35,9 +36,43 @@ namespace Chatting
 
         private void OnUploadButton(object sender, EventArgs e)
         {
-            UploadPhoto();
+           UploadPhoto();
+           // TakePhoto();
         }
+        //async void TakePhoto()
+        //{
+        //    await CrossMedia.Current.Initialize();
 
+        //    int num = RandomNumber(10000, 99999);
+        //    filePath = num.ToString() + ".jpg";
+
+        //    var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+        //    {
+        //        PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small,
+        //        CompressionQuality = 30,
+        //        Name = filePath,
+        //        Directory = "image"
+
+        //    });
+
+        //    if (file == null)
+        //    {
+        //        return;
+        //    }
+
+        //    filePath = file.Path;
+
+        //    // Convert file to byte array and set the resulting bitmap to imageview
+        //    byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+        //    Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+        //    ImgView.SetImageBitmap(bitmap);
+
+        //}
+        //public int RandomNumber(int min, int max)
+        //{
+        //    Random random = new Random();
+        //    return random.Next(min, max);
+        //}
         async void UploadPhoto()
         {
             await CrossMedia.Current.Initialize();
@@ -65,7 +100,7 @@ namespace Chatting
             Finish();
         }
 
-        private void OnSaveClick(object sender, EventArgs e)
+        public void OnSaveClick(object sender, EventArgs e)
         {
             string name = FindViewById<EditText>(Resource.Id.nameInput).Text;
             string image = filePath;
@@ -74,8 +109,7 @@ namespace Chatting
             intent.PutExtra("Image", image);
             SetResult(Result.Ok, intent);
 
-  //
-            Finish();
+             Finish();
         }
     }
 }

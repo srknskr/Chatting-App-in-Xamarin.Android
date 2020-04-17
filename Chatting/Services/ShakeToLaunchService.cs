@@ -3,11 +3,13 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Hardware;
+using Android.Widget;
+using Android.Util;
 
 namespace Chatting.Services
 {
     [Service]
-    class ShakeToLaunchService : Service, ISensorEventListener
+    public class ShakeToLaunchService : Service, ISensorEventListener
     {
         SensorManager sensorManager;
 
@@ -30,6 +32,11 @@ namespace Chatting.Services
 
         public override void OnCreate()
         {
+            base.OnCreate();
+
+            PendingIntent pendingIntent = PendingIntent.GetActivity(this, 100, new Intent(this, typeof(AddPersonActivity)), 0);
+           
+
             System.Diagnostics.Debug.WriteLine("ShakeToLaunchServices: OnCreate");
 
             sensorManager = (SensorManager)GetSystemService(Context.SensorService);
@@ -43,26 +50,30 @@ namespace Chatting.Services
         }
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
+            
             System.Diagnostics.Debug.WriteLine("ShakeToLaunchServices: OnStartCommand");
 
             intentAction = intent.GetStringExtra("Action");
 
             var isForeground = intent.GetBooleanExtra("Notification", false);
 
-            if(isForeground == true)
+            if (isForeground == true)
             {
                 var title = intent.GetStringExtra("Title");
 
                 var pendingIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(MainActivity)), 0);
 
                 var notification = new Notification.Builder(this)
-                  //  .SetSmallIcon(Resource.Drawable.ic_vibration_white_24dp)
+                      .SetSmallIcon(Resource.Drawable.plus)
                     .SetColor(0x81CBC4)
-                   // .SetContentTitle(GetString(Resource.String.ApplicationName))
-                 //   .SetContentText(String.Format(GetString(Resource.String.NotificationDescription), title))
+                    // .SetContentTitle(GetString(Resource.String.ApplicationName))
+                    //   .SetContentText(String.Format(GetString(Resource.String.NotificationDescription), title))
                     .SetContentIntent(pendingIntent).Build();
 
                 StartForeground(NotifcationID, notification);
+
+
+
             }
             else
             {
@@ -101,7 +112,7 @@ namespace Chatting.Services
             //reset shake count if it's been too long since last shake
             if ((currentTime - lastShakeTime) > gestureTimeout)
                 shakeCount = 0;
-    
+
             var currentX = e.Values[0];
             var currentY = e.Values[1];
             var currentZ = e.Values[2];
@@ -119,7 +130,7 @@ namespace Chatting.Services
                 OnShake();
                 shakeCount = 0;
             }
-            
+
             //save the accel values
             lastX = currentX;
             lastY = currentY;
@@ -128,15 +139,25 @@ namespace Chatting.Services
             lastSampleTime = currentTime;
         }
 
-        void OnShake ()
+
+        void OnShake()
         {
             System.Diagnostics.Debug.WriteLine("shake detected");
 
-            Intent intent = new Intent(this,typeof(AddPersonActivity));
-            intent.SetFlags(ActivityFlags.NewTask);
+            
+            
+            
+            var intent = new Intent(this, typeof(AddPersonActivity));
 
             StartActivity(intent);
+
+
+
+            intent.SetFlags(ActivityFlags.NewTask);
+
+
         }
+
 
         bool IsSignifigantChange(double value1, double value2)
         {

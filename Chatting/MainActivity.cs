@@ -44,6 +44,8 @@ namespace Chatting
             FindViewById<Button>(Resource.Id.aboutButton).Click += OnAboutClick;
 
             /////////////////////////////////
+            ///
+            
             string intentAction;
             string title;
 
@@ -60,7 +62,8 @@ namespace Chatting
 
             StartService(intent);
 
-           
+            
+
 
             //////////////////
 
@@ -104,6 +107,14 @@ namespace Chatting
                 
                 MainActivity.PeopleList.Add(new People(name, image));
                 MessageData.ContactMessages.Add(new Message(name, 0, "", "", "", "", "", "", "", "", "", ""));
+            }
+
+            else if (requestCode == 99 && resultCode == Result.Ok)
+            {
+                string dollar = data.GetStringExtra("Dollar");
+                FindViewById<EditText>(Resource.Id.textView10).Text = dollar;
+
+
             }
         }
     }

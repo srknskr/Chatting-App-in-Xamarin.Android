@@ -19,11 +19,6 @@ namespace Chatting
 		static MessageData()
 		{
 			var temp = new List<Message>();
-			//AddInstructors(temp);
-			//AddInstructors(temp);
-			//AddInstructors(temp);
-			//AddInstructors(temp);
-
 			ContactMessages = temp.OrderBy(i => i.Name).ToList();
 		}
 	}

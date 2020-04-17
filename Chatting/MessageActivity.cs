@@ -140,7 +140,7 @@ namespace Chatting
         private void CurrencyButton_Click(object sender, EventArgs e)
         {
             var intent = new Intent(this, typeof(CurrencyActivity));
-            StartActivity(intent);
+            StartActivityForResult(intent, 99);
         }
 
         private void LocationButton_Click(object sender, EventArgs e)
@@ -151,23 +151,26 @@ namespace Chatting
 
         async void CameraButton_Click(object sender, EventArgs e)
         {
-            await CrossMedia.Current.Initialize();
+            var intent = new Intent(this, typeof(CameraActivity));
+            StartActivityForResult(intent,100);
 
-            if (!CrossMedia.Current.IsTakePhotoSupported)
-            {
-                Toast.MakeText(this, "Upload not suported ", ToastLength.Short).Show();
-                return;
-            }
+            //await CrossMedia.Current.Initialize();
 
-            var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
-            {
-                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small,
-                CompressionQuality = 40
-            });
-            filePath = file.Path;
-            byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
-            Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
-            img.SetImageBitmap(bitmap);
+            //if (!CrossMedia.Current.IsTakePhotoSupported)
+            //{
+            //    Toast.MakeText(this, "Upload not suported ", ToastLength.Short).Show();
+            //    return;
+            //}
+
+            //var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            //{
+            //    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small,
+            //    CompressionQuality = 40
+            //});
+            //filePath = file.Path;
+            //byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+            //Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+            //img.SetImageBitmap(bitmap);
         }
 
         private void OnSendClick(object sender, EventArgs e)
@@ -290,4 +293,7 @@ namespace Chatting
         //    StartActivity(intent);
         //}
     }
+
+    
+
 }
