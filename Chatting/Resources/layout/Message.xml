@@ -79,20 +79,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
-        android:background="#ff08aa0e"/>
+        android:background="#ff3995ff"
+        android:layout_marginTop="10dp" 
+        />
     <LinearLayout
         android:orientation="vertical"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1" >
+        android:id="@+id/linearLayout1">
 
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/msgEditText" />
+            android:id="@+id/msgEditText" 
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -100,26 +103,12 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2" >
-        <Button
-            android:text="CAMERA"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/cameraButton" />
-        <Button
-            android:text="LOCATION"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/locationButton" />
-        <Button
-            android:text="$"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/currencyButton" />
+        android:id="@+id/linearLayout2">
+
         <ImageView
-            android:src="@android:drawable/ic_menu_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:src="@drawable/picture"
+            android:layout_width="93.5dp"
+            android:layout_height="49.0dp"
             android:id="@+id/img"
             android:maxHeight="50dp"
             android:maxWidth="50dp"
@@ -127,14 +116,37 @@
             android:minWidth="50dp" 
             />
 
+        <Button
+            android:text="CAMERA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cameraButton"
+          />
+        <Button
+            android:text="LOCATION"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/locationButton"
+                      />
+
+        <Button
+            android:text="$"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/currencyButton"
+/>
+
     </LinearLayout>
 
 
 
+
     <Button
-        android:text="Send Message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sendButton" />
+        android:layout_width="85.5dp"
+        android:layout_height="54.5dp"
+        android:id="@+id/sendButton"
+        android:drawableLeft="@android:drawable/ic_menu_send"
+        android:layout_marginLeft="275dp" 
+        />
 
 </LinearLayout>

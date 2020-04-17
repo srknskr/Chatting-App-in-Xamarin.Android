@@ -8,32 +8,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/linearLayout1">
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nameTextView"
-        android:textSize="30dp"
+        android:textSize="35dp"
         android:textStyle="bold|normal"
-        android:textColor="#ffeb1111"
+        android:textColor="#ff3995ff"
         android:gravity="center_horizontal"
-        android:text="asd " 
+        android:text=" " />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="329.5dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/picture" />
+    
 
-/>
+
     <Button
         android:text="Send Message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/msgButton"
-        android:background="#ffe92929"
-        android:textColor="#ffffffff"
         android:textSize="20dp"
-        android:textStyle="bold|italic"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/picture" />
+        
+        />
+    
 
 
 

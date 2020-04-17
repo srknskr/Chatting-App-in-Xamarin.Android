@@ -25,12 +25,13 @@
         android:layout_width ="match_parent"
         android:layout_height="wrap_content"
         android:text         ="Learn more" 
+        android:textColor="#3692FB"
        />
     <TextView
         android:layout_width      ="match_parent"
         android:layout_height     ="wrap_content"
         android:text              ="Built with Xamarin.Android"
-        android:textColor="#ff3992c6"
+        android:textColor="#3692FB"
         android:textAlignment="center"
         android:layout_gravity="top"
         android:layout_marginTop="200dp" />
