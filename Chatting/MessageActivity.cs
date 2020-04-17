@@ -5,12 +5,18 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Widget;
-using Plugin.Media;
 using Android.Support.V4.App;
 
 using Java.Lang;
-using Android.Media;
+using System.Net;
+using System.Collections.Generic;
+using Android.Content.PM;
+using Android.Provider;
 
+using Java.IO;
+
+using Environment = Android.OS.Environment;
+using Uri = Android.Net.Uri;
 namespace Chatting
 {
     [Activity(Label = "MessageActivity")]
@@ -37,7 +43,8 @@ namespace Chatting
 
         string filePath;
 
-
+        private File _dir;
+        private File _file;
 
 
 
@@ -114,7 +121,16 @@ namespace Chatting
 
 
             //   name.Text = ContactData.Instructors[position].Name;
+            if (IsThereAnAppToTakePictures())
+            {
+                CreateDirectoryForPictures();
 
+                
+                
+
+
+              
+            }
         }
 
         void CreateNotificationChannel()
@@ -139,20 +155,86 @@ namespace Chatting
         }
         private void CurrencyButton_Click(object sender, EventArgs e)
         {
-            var intent = new Intent(this, typeof(CurrencyActivity));
-            StartActivityForResult(intent, 99);
+            //var intent = new Intent(this, typeof(CurrencyActivity));
+            //StartActivityForResult(intent, 99);
+            CurrencyConversion(1, "TRY", "USD");
+        }
+        private const string urlPattern = "http://rate-exchange-1.appspot.com/currency?from={0}&to={1}";
+        public string CurrencyConversion(decimal amount, string fromCurrency, string toCurrency)
+        {
+            string url = string.Format(urlPattern, fromCurrency, toCurrency);
+            string Output = edt.Text;
+            using (var wc = new WebClient())
+            {
+                var json = wc.DownloadString(url);
+
+                Newtonsoft.Json.Linq.JToken token = Newtonsoft.Json.Linq.JObject.Parse(json);
+                decimal exchangeRate = (decimal)token.SelectToken("rate");
+
+                Output = (amount * exchangeRate).ToString();
+                 edt.Text= "1 TRY = " + Output + " USD";
+                return edt.Text;
+            }
+        }
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            // make it available in the gallery
+            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+            Uri contentUri = Uri.FromFile(_file);
+            mediaScanIntent.SetData(contentUri);
+            SendBroadcast(mediaScanIntent);
+
+            // display in ImageView. We will resize the bitmap to fit the display
+            // Loading the full sized image will consume to much memory 
+            // and cause the application to crash.
+            int height = 50;
+            int width = 50;
+            using (Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height))
+            {
+                img.RecycleBitmap();
+                img.SetImageBitmap(bitmap);
+                edt.Text = Convert.ToString(bitmap); 
+            }
         }
 
         private void LocationButton_Click(object sender, EventArgs e)
         {
             var intent = new Intent(this, typeof(LocationActivity));
-            StartActivity(intent);
+            StartActivityForResult(intent, 98);
+
+        }
+        private void CreateDirectoryForPictures()
+        {
+            _dir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DirectoryPictures), "CameraAppDemo");
+            if (!_dir.Exists())
+            {
+                _dir.Mkdirs();
+            }
         }
 
+        private bool IsThereAnAppToTakePictures()
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            IList<ResolveInfo> availableActivities = PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+            return availableActivities != null && availableActivities.Count > 0;
+        }
         async void CameraButton_Click(object sender, EventArgs e)
         {
-            var intent = new Intent(this, typeof(CameraActivity));
-            StartActivityForResult(intent,100);
+
+
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+
+            _file = new File(_dir, System.String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+
+            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(_file));
+
+            
+            StartActivityForResult(intent, 0);
+           
+            ////////////var intent = new Intent(this, typeof(CameraActivity));
+            ////////////StartActivityForResult(intent,100);
 
             //await CrossMedia.Current.Initialize();
 

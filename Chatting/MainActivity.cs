@@ -103,8 +103,8 @@ namespace Chatting
 
                 Toast.MakeText(Android.App.Application.Context, image, ToastLength.Short).Show();
 
-                
-                
+
+
                 MainActivity.PeopleList.Add(new People(name, image));
                 MessageData.ContactMessages.Add(new Message(name, 0, "", "", "", "", "", "", "", "", "", ""));
             }
@@ -117,5 +117,7 @@ namespace Chatting
 
             }
         }
+
+
     }
 }
