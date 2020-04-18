@@ -50,19 +50,19 @@ namespace Chatting
             string title;
 
             
-                intentAction = MediaStore.IntentActionStillImageCamera;
+             //   intentAction = MediaStore.IntentActionStillImageCamera;
                 title = "Camera";
             
            
-
+            
             var intent = new Intent(this, typeof(ShakeToLaunchService));
             intent.PutExtra("Title", title);
-            intent.PutExtra("Action", intentAction);
+           // intent.PutExtra("Action", intentAction);
             //intent.PutExtra("Notification", switchNotification.Checked);
 
-            StartService(intent);
+          StartService(intent);
 
-            
+         
 
 
             //////////////////
@@ -76,7 +76,7 @@ namespace Chatting
             StartActivity(intent);
         }
 
-        private void OnAddPersonClick(object sender, EventArgs e)
+        public void OnAddPersonClick(object sender, EventArgs e)
         {
             var intent = new Intent(this, typeof(AddPersonActivity));
             StartActivityForResult(intent, 100);
@@ -90,7 +90,7 @@ namespace Chatting
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
+            
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
@@ -117,7 +117,7 @@ namespace Chatting
 
             }
         }
-
+        
 
     }
 }

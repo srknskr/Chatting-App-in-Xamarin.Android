@@ -140,21 +140,35 @@ namespace Chatting.Services
         }
 
 
-        void OnShake()
+       public void OnShake()
         {
             System.Diagnostics.Debug.WriteLine("shake detected");
 
-            
-            
-            
-            var intent = new Intent(this, typeof(AddPersonActivity));
-
-            StartActivity(intent);
 
 
 
+            //var intent = new Intent(this, typeof(AddPersonActivity));
+            //intent.SetFlags(ActivityFlags.NewTask);
+            //StartActivity(intent);
+
+
+            Intent intent = new Intent(this,typeof(AddPersonActivity));
             intent.SetFlags(ActivityFlags.NewTask);
 
+            StartActivity(intent);
+            
+
+            string name = intent.GetStringExtra("PersonName");
+            string image = intent.GetStringExtra("Image");
+
+            Toast.MakeText(Android.App.Application.Context, image, ToastLength.Short).Show();
+
+
+
+            MainActivity.PeopleList.Add(new People(name, image));
+            MessageData.ContactMessages.Add(new Message(name, 0, "", "", "", "", "", "", "", "", "", ""));
+            //  MainActivity.PeopleList.Add(new People("", image));
+            //  PendingIntent pendingIntent = PendingIntent.GetActivity(this, 100, new Intent(this, typeof(AddPersonActivity)), 0);
 
         }
 
@@ -163,5 +177,6 @@ namespace Chatting.Services
         {
             return Math.Abs(value1 - value2) > ShakeThreshold;
         }
+        
     }
 }

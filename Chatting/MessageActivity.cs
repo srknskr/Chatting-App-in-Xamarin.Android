@@ -48,10 +48,6 @@ namespace Chatting
 
 
 
-
-
-
-
         // Unique ID for our notification: 
         static readonly int NOTIFICATION_ID = 1000;
         static readonly string CHANNEL_ID = "location_notification";
@@ -119,17 +115,10 @@ namespace Chatting
             locationButton.Click += LocationButton_Click;
             currencyButton.Click += CurrencyButton_Click;
 
-
             //   name.Text = ContactData.Instructors[position].Name;
             if (IsThereAnAppToTakePictures())
             {
                 CreateDirectoryForPictures();
-
-                
-                
-
-
-              
             }
         }
 
@@ -153,6 +142,8 @@ namespace Chatting
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             notificationManager.CreateNotificationChannel(channel);
         }
+
+       
         private void CurrencyButton_Click(object sender, EventArgs e)
         {
             //var intent = new Intent(this, typeof(CurrencyActivity));
@@ -176,28 +167,7 @@ namespace Chatting
                 return edt.Text;
             }
         }
-        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-        {
-            base.OnActivityResult(requestCode, resultCode, data);
-
-            // make it available in the gallery
-            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-            Uri contentUri = Uri.FromFile(_file);
-            mediaScanIntent.SetData(contentUri);
-            SendBroadcast(mediaScanIntent);
-
-            // display in ImageView. We will resize the bitmap to fit the display
-            // Loading the full sized image will consume to much memory 
-            // and cause the application to crash.
-            int height = 50;
-            int width = 50;
-            using (Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height))
-            {
-                img.RecycleBitmap();
-                img.SetImageBitmap(bitmap);
-                edt.Text = Convert.ToString(bitmap); 
-            }
-        }
+       
 
         private void LocationButton_Click(object sender, EventArgs e)
         {
@@ -205,6 +175,8 @@ namespace Chatting
             StartActivityForResult(intent, 98);
 
         }
+
+
         private void CreateDirectoryForPictures()
         {
             _dir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DirectoryPictures), "CameraAppDemo");
@@ -268,6 +240,48 @@ namespace Chatting
             {
                 if (count <= 10)
                 {
+                    // Pass the current button press count value to the next activity:
+                    var valuesForActivity = new Bundle();
+                    valuesForActivity.PutInt(COUNT_KEY, count);
+
+                    // When the user clicks the notification, SecondActivity will start up.
+                    var resultIntent = new Intent(this, typeof(MessageActivity));
+                    resultIntent.PutExtra("PeoplePosition", position);
+                    //    StartActivity(resultIntent);
+
+                    // Pass some values to SecondActivity:
+                    resultIntent.PutExtras(valuesForActivity);
+
+                    // Construct a back stack for cross-task navigation:
+                    var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create(this);
+                    stackBuilder.AddParentStack(Class.FromType(typeof(MessageActivity)));
+                    stackBuilder.AddNextIntent(resultIntent);
+
+                    // Create the PendingIntent with the back stack:            
+                    var resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
+
+                    // Build the notification:
+                    var builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                                  .SetAutoCancel(true) // Dismiss the notification from the notification area when the user clicks on it
+                                  .SetContentIntent(resultPendingIntent) // Start up this activity when the user clicks the intent.
+                                  .SetContentTitle("Button Clicked") // Set the title
+                                  .SetNumber(count) // Display the count in the Content Info
+                                  .SetSmallIcon(Resource.Drawable.messenger) // This is the icon to display
+                                  .SetContentText($"You have {count} messages.") // the message to display.
+                                  .SetVibrate(new long[] { 500, 1000 })
+                                  .SetLights(Color.Red, 3000, 3000)
+                                  .SetSound(Android.Net.Uri.Parse("uri://sadfasdfasdf.mp3"));
+
+
+
+                    // Finally, publish the notification:
+                    var notificationManager = NotificationManagerCompat.From(this);
+                    notificationManager.Notify(NOTIFICATION_ID, builder.Build());
+
+                    // Increment the button press count:
+                    //count++;
+
+
                     switch (count)
                     {
                         case 1:
@@ -322,46 +336,7 @@ namespace Chatting
 
 
 
-            // Pass the current button press count value to the next activity:
-            var valuesForActivity = new Bundle();
-            valuesForActivity.PutInt(COUNT_KEY, count);
-
-            // When the user clicks the notification, SecondActivity will start up.
-            var resultIntent = new Intent(this, typeof(MessageActivity));
-            resultIntent.PutExtra("PeoplePosition", position);
-            //    StartActivity(resultIntent);
-
-            // Pass some values to SecondActivity:
-            resultIntent.PutExtras(valuesForActivity);
-
-            // Construct a back stack for cross-task navigation:
-            var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create(this);
-            stackBuilder.AddParentStack(Class.FromType(typeof(MessageActivity)));
-            stackBuilder.AddNextIntent(resultIntent);
-
-            // Create the PendingIntent with the back stack:            
-            var resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
-
-            // Build the notification:
-            var builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                          .SetAutoCancel(true) // Dismiss the notification from the notification area when the user clicks on it
-                          .SetContentIntent(resultPendingIntent) // Start up this activity when the user clicks the intent.
-                          .SetContentTitle("Button Clicked") // Set the title
-                          .SetNumber(count) // Display the count in the Content Info
-                          .SetSmallIcon(Resource.Drawable.messenger) // This is the icon to display
-                          .SetContentText($"You have {count} messages.") // the message to display.
-                          .SetVibrate(new long[] { 500, 1000 })
-                          .SetLights(Color.Red, 3000, 3000)
-                          .SetSound(Android.Net.Uri.Parse("uri://sadfasdfasdf.mp3"));
-                          
-
-
-            // Finally, publish the notification:
-            var notificationManager = NotificationManagerCompat.From(this);
-            notificationManager.Notify(NOTIFICATION_ID, builder.Build());
-
-            // Increment the button press count:
-            count++;
+            
 
 
         }
@@ -374,6 +349,30 @@ namespace Chatting
 
         //    StartActivity(intent);
         //}
+
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            // make it available in the gallery
+            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+            Uri contentUri = Uri.FromFile(_file);
+            mediaScanIntent.SetData(contentUri);
+            SendBroadcast(mediaScanIntent);
+
+            // display in ImageView. We will resize the bitmap to fit the display
+            // Loading the full sized image will consume to much memory 
+            // and cause the application to crash.
+            int height = 50;
+            int width = 50;
+            using (Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height))
+            {
+                img.RecycleBitmap();
+                img.SetImageBitmap(bitmap);
+                edt.Text = Convert.ToString(bitmap);
+            }
+        }
     }
 
     

@@ -108,8 +108,9 @@ namespace Chatting
             intent.PutExtra("PersonName", name);
             intent.PutExtra("Image", image);
             SetResult(Result.Ok, intent);
-
-             Finish();
+            
+            Finish();
+            
         }
     }
 }
