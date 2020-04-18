@@ -19,6 +19,7 @@ namespace Chatting
     [Activity(Label = "AddPersonActivity")]
     public class AddPersonActivity : Activity
     {
+        EditText name;
         ImageView ImgView;
         string filePath;
         protected override void OnCreate(Bundle savedInstanceState)
@@ -31,7 +32,7 @@ namespace Chatting
             FindViewById<Button>(Resource.Id.cancelButton).Click += OnCancelClick;
             FindViewById<Button>(Resource.Id.uploadButton).Click += OnUploadButton;
             ImgView = (ImageView)FindViewById(Resource.Id.imageView);
-            
+            name= FindViewById<EditText>(Resource.Id.nameInput);
         }
 
         private void OnUploadButton(object sender, EventArgs e)
@@ -110,6 +111,7 @@ namespace Chatting
             SetResult(Result.Ok, intent);
             
             Finish();
+
             
         }
     }

@@ -11,6 +11,7 @@ namespace Chatting.Services
     [Service]
     public class ShakeToLaunchService : Service, ISensorEventListener
     {
+       
         SensorManager sensorManager;
 
         const int NotifcationID = 42;
@@ -35,8 +36,7 @@ namespace Chatting.Services
             base.OnCreate();
 
             PendingIntent pendingIntent = PendingIntent.GetActivity(this, 100, new Intent(this, typeof(AddPersonActivity)), 0);
-           
-
+            
             System.Diagnostics.Debug.WriteLine("ShakeToLaunchServices: OnCreate");
 
             sensorManager = (SensorManager)GetSystemService(Context.SensorService);
@@ -72,7 +72,7 @@ namespace Chatting.Services
 
                 StartForeground(NotifcationID, notification);
 
-
+                
 
             }
             else
@@ -156,17 +156,20 @@ namespace Chatting.Services
             intent.SetFlags(ActivityFlags.NewTask);
 
             StartActivity(intent);
-            
+
 
             string name = intent.GetStringExtra("PersonName");
             string image = intent.GetStringExtra("Image");
 
             Toast.MakeText(Android.App.Application.Context, image, ToastLength.Short).Show();
-
+            intent.PutExtra("PersonName", name);
+            intent.PutExtra("Image", image);
 
 
             MainActivity.PeopleList.Add(new People(name, image));
             MessageData.ContactMessages.Add(new Message(name, 0, "", "", "", "", "", "", "", "", "", ""));
+            intent.PutExtra("PersonName", name);
+            intent.PutExtra("Image", image);
             //  MainActivity.PeopleList.Add(new People("", image));
             //  PendingIntent pendingIntent = PendingIntent.GetActivity(this, 100, new Intent(this, typeof(AddPersonActivity)), 0);
 

@@ -12,7 +12,7 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Util;
-
+using Android.Content;
 
 namespace Chatting
 {
@@ -87,7 +87,14 @@ namespace Chatting
 
         private void LocationButton_Click(object sender, EventArgs e)
         {
-            
+            string lat= FindViewById<TextView>(Resource.Id.lat).Text;
+            string longt =FindViewById<TextView>(Resource.Id.longx).Text;
+            var intent = new Intent();
+            intent.PutExtra("Lat", lat);
+            intent.PutExtra("Longt", longt);
+            SetResult(Result.Ok, intent);
+
+            Finish();
         }
 
         protected override void OnResume()

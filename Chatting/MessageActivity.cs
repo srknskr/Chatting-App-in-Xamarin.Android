@@ -356,6 +356,8 @@ namespace Chatting
             base.OnActivityResult(requestCode, resultCode, data);
 
             // make it available in the gallery
+
+
             Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
             Uri contentUri = Uri.FromFile(_file);
             mediaScanIntent.SetData(contentUri);
@@ -371,6 +373,13 @@ namespace Chatting
                 img.RecycleBitmap();
                 img.SetImageBitmap(bitmap);
                 edt.Text = Convert.ToString(bitmap);
+            }
+
+            if (requestCode == 98 && resultCode == Result.Ok)
+            {
+                string lat= data.GetStringExtra("Lat");
+                string longt= data.GetStringExtra("Longt");
+                edt.Text = lat + " " + longt;
             }
         }
     }
