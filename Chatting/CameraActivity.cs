@@ -20,7 +20,7 @@ namespace Chatting
     [Activity(Label = "CameraActivity")]
     public class CameraActivity : Activity
     {
-        
+
         private File _dir;
         private File _file;
         private ImageView _imageView;
@@ -44,7 +44,8 @@ namespace Chatting
             {
                 _imageView.RecycleBitmap();
                 _imageView.SetImageBitmap(bitmap);
-                
+
+                string filePath = _file.Path;
             }
         }
 
@@ -57,12 +58,39 @@ namespace Chatting
             {
                 CreateDirectoryForPictures();
 
+                Button sendBtn = FindViewById<Button>(Resource.Id.sendCamera);
                 Button button = FindViewById<Button>(Resource.Id.myButton);
                 _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
-                
 
+                sendBtn.Click += SendBtn_Click;
                 button.Click += TakeAPicture;
             }
+        }
+
+        private void SendBtn_Click(object sender, EventArgs e)
+        {
+            var intent = new Intent();
+            Bitmap bitmap = _file.Path.LoadAndResizeBitmap(50, 50);
+            string bit = Convert.ToString(bitmap);
+            intent.PutExtra("image", bit);
+
+
+
+            Uri contentUri = Uri.FromFile(_file);
+            string uriName = Convert.ToString(contentUri);
+
+            string filePath = _file.Path;
+            intent.PutExtra("image2", filePath);
+
+
+
+            intent.PutExtra("image3", uriName);
+
+            SetResult(Result.Ok, intent);
+
+            Finish();
+
+
         }
 
         private void CreateDirectoryForPictures()

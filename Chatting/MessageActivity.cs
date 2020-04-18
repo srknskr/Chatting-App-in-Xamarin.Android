@@ -73,8 +73,8 @@ namespace Chatting
             position = Intent.GetIntExtra("PeoplePosition", -1);
             // var instructor = ContactData.Instructors[position];
             var messages = MessageData.ContactMessages[position];
-
-
+            
+           
             edt = FindViewById<EditText>(Resource.Id.msgEditText);
 
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar);
@@ -116,10 +116,10 @@ namespace Chatting
             currencyButton.Click += CurrencyButton_Click;
 
             //   name.Text = ContactData.Instructors[position].Name;
-            if (IsThereAnAppToTakePictures())
-            {
-                CreateDirectoryForPictures();
-            }
+            //if (IsThereAnAppToTakePictures())
+            //{
+            //    CreateDirectoryForPictures();
+            //}
         }
 
         void CreateNotificationChannel()
@@ -177,33 +177,30 @@ namespace Chatting
         }
 
 
-        private void CreateDirectoryForPictures()
-        {
-            _dir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DirectoryPictures), "CameraAppDemo");
-            if (!_dir.Exists())
-            {
-                _dir.Mkdirs();
-            }
-        }
+        //private void CreateDirectoryForPictures()
+        //{
+        //    _dir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DirectoryPictures), "CameraAppDemo");
+        //    if (!_dir.Exists())
+        //    {
+        //        _dir.Mkdirs();
+        //    }
+        //}
 
-        private bool IsThereAnAppToTakePictures()
-        {
-            Intent intent = new Intent(MediaStore.ActionImageCapture);
-            IList<ResolveInfo> availableActivities = PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
-            return availableActivities != null && availableActivities.Count > 0;
-        }
+        //private bool IsThereAnAppToTakePictures()
+        //{
+        //    Intent intent = new Intent(MediaStore.ActionImageCapture);
+        //    IList<ResolveInfo> availableActivities = PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+        //    return availableActivities != null && availableActivities.Count > 0;
+        //}
         async void CameraButton_Click(object sender, EventArgs e)
         {
 
 
-            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            Intent intent = new Intent(this,typeof(CameraActivity));
 
-            _file = new File(_dir, System.String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
-
-            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(_file));
 
             
-            StartActivityForResult(intent, 0);
+            StartActivityForResult(intent, 99);
            
             ////////////var intent = new Intent(this, typeof(CameraActivity));
             ////////////StartActivityForResult(intent,100);
@@ -355,31 +352,54 @@ namespace Chatting
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            // make it available in the gallery
+            //// make it available in the gallery
 
 
-            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-            Uri contentUri = Uri.FromFile(_file);
-            mediaScanIntent.SetData(contentUri);
-            SendBroadcast(mediaScanIntent);
+            //Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+            //Uri contentUri = Uri.FromFile(_file);
+            //mediaScanIntent.SetData(contentUri);
+            //SendBroadcast(mediaScanIntent);
 
-            // display in ImageView. We will resize the bitmap to fit the display
-            // Loading the full sized image will consume to much memory 
-            // and cause the application to crash.
-            int height = 50;
-            int width = 50;
-            using (Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height))
-            {
-                img.RecycleBitmap();
-                img.SetImageBitmap(bitmap);
-                edt.Text = Convert.ToString(bitmap);
-            }
+            //// display in ImageView. We will resize the bitmap to fit the display
+            //// Loading the full sized image will consume to much memory 
+            //// and cause the application to crash.
+            //int height = 50;
+            //int width = 50;
+            //using (Bitmap bitmap = _file.Path.LoadAndResizeBitmap(width, height))
+            //{
+            //    img.RecycleBitmap();
+            //    img.SetImageBitmap(bitmap);
+            //    edt.Text = Convert.ToString(bitmap);
+            //}
 
             if (requestCode == 98 && resultCode == Result.Ok)
             {
                 string lat= data.GetStringExtra("Lat");
                 string longt= data.GetStringExtra("Longt");
                 edt.Text = lat + " " + longt;
+                
+            }
+            if (requestCode == 99 && resultCode == Result.Ok)
+            {
+                string bitmapName= data.GetStringExtra("image");
+                edt.Text = bitmapName;
+                // string uriName= data.GetStringExtra("image3");
+
+
+                  string filePath = data.GetStringExtra("image2");
+                byte[] imageArray = System.IO.File.ReadAllBytes(filePath);
+                Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+                img.SetImageBitmap(bitmap);
+
+
+
+                //  string longt= data.GetStringExtra("Longt");
+
+
+                //Uri imageUri = data.getData();
+                //Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+
+
             }
         }
     }

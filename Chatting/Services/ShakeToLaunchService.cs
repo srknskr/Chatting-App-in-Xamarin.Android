@@ -150,8 +150,7 @@ namespace Chatting.Services
             //var intent = new Intent(this, typeof(AddPersonActivity));
             //intent.SetFlags(ActivityFlags.NewTask);
             //StartActivity(intent);
-
-
+            
             Intent intent = new Intent(this,typeof(AddPersonActivity));
             intent.SetFlags(ActivityFlags.NewTask);
 
@@ -168,8 +167,11 @@ namespace Chatting.Services
 
             MainActivity.PeopleList.Add(new People(name, image));
             MessageData.ContactMessages.Add(new Message(name, 0, "", "", "", "", "", "", "", "", "", ""));
-            intent.PutExtra("PersonName", name);
-            intent.PutExtra("Image", image);
+           
+            
+            
+
+
             //  MainActivity.PeopleList.Add(new People("", image));
             //  PendingIntent pendingIntent = PendingIntent.GetActivity(this, 100, new Intent(this, typeof(AddPersonActivity)), 0);
 

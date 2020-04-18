@@ -90,7 +90,7 @@ namespace Chatting
                 CompressionQuality = 40
             });
             filePath = file.Path;
-            byte[] imageArray = System.IO.File.ReadAllBytes(file.Path);
+            byte[] imageArray = System.IO.File.ReadAllBytes(filePath);
             Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
             ImgView.SetImageBitmap(bitmap);
 
