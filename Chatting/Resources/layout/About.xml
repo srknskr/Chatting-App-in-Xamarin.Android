@@ -24,7 +24,7 @@
         android:id           ="@+id/learnMoreButton"
         android:layout_width ="match_parent"
         android:layout_height="wrap_content"
-        android:text         ="Learn more" 
+        android:text         ="Github Repo" 
         android:textColor="#3692FB"
        />
     <TextView
