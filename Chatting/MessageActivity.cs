@@ -261,6 +261,8 @@ namespace Chatting
                     var resultIntent = new Intent(this, typeof(MessageActivity));
                     resultIntent.PutExtra("PeoplePosition", position);
                     //    StartActivity(resultIntent);
+                    
+                    
 
                     // Pass some values to SecondActivity:
                     resultIntent.PutExtras(valuesForActivity);
@@ -399,16 +401,17 @@ namespace Chatting
             }
             if (requestCode == 99 && resultCode == Result.Ok)
             {
-                string bitmapName = data.GetStringExtra("image");
-                edt.Text = bitmapName;
+                string bitmapName = data.GetStringExtra("bitmap");
+                
+               
                 // string uriName= data.GetStringExtra("image3");
 
 
-                string filePath = data.GetStringExtra("image2");
+                string filePath = data.GetStringExtra("filepath");
                 byte[] imageArray = System.IO.File.ReadAllBytes(filePath);
                 Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
                 img.SetImageBitmap(bitmap);
-
+                edt.Text = filePath;
 
 
                 //  string longt= data.GetStringExtra("Longt");

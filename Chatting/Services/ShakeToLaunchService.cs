@@ -33,6 +33,7 @@ namespace Chatting.Services
 
         public override void OnCreate()
         {
+           
             base.OnCreate();
 
             PendingIntent pendingIntent = PendingIntent.GetActivity(this, 100, new Intent(this, typeof(AddPersonActivity)), 0);

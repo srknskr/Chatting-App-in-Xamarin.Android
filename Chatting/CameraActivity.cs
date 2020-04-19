@@ -72,15 +72,15 @@ namespace Chatting
             var intent = new Intent();
             Bitmap bitmap = _file.Path.LoadAndResizeBitmap(50, 50);
             string bit = Convert.ToString(bitmap);
-            intent.PutExtra("image", bit);
+            intent.PutExtra("bitmap", bit);
 
-
+           
 
             Uri contentUri = Uri.FromFile(_file);
             string uriName = Convert.ToString(contentUri);
 
             string filePath = _file.Path;
-            intent.PutExtra("image2", filePath);
+            intent.PutExtra("filepath", filePath);
 
 
 
