@@ -73,8 +73,8 @@ namespace Chatting
             position = Intent.GetIntExtra("PeoplePosition", -1);
             // var instructor = ContactData.Instructors[position];
             var messages = MessageData.ContactMessages[position];
-            
-           
+
+
             edt = FindViewById<EditText>(Resource.Id.msgEditText);
 
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar);
@@ -143,7 +143,7 @@ namespace Chatting
             notificationManager.CreateNotificationChannel(channel);
         }
 
-       
+
         private void CurrencyButton_Click(object sender, EventArgs e)
         {
             //var intent = new Intent(this, typeof(CurrencyActivity));
@@ -163,11 +163,11 @@ namespace Chatting
                 decimal exchangeRate = (decimal)token.SelectToken("rate");
 
                 Output = (amount * exchangeRate).ToString();
-                 edt.Text= "1 TRY = " + Output + " USD";
+                edt.Text = "1 TRY = " + Output + " USD";
                 return edt.Text;
             }
         }
-       
+
 
         private void LocationButton_Click(object sender, EventArgs e)
         {
@@ -196,12 +196,12 @@ namespace Chatting
         {
 
 
-            Intent intent = new Intent(this,typeof(CameraActivity));
+            Intent intent = new Intent(this, typeof(CameraActivity));
 
 
-            
+
             StartActivityForResult(intent, 99);
-           
+
             ////////////var intent = new Intent(this, typeof(CameraActivity));
             ////////////StartActivityForResult(intent,100);
 
@@ -229,6 +229,22 @@ namespace Chatting
             var position = Intent.GetIntExtra("PeoplePosition", -1);
             var messages = MessageData.ContactMessages[position];
             string message = edt.Text.ToString();
+
+            if (edt.Text.Contains("ASAP")){
+              message = edt.Text.ToString().Replace("ASAP", "As Soon As Possible");
+            }
+            else if (edt.Text.Contains("BBL"))
+            {
+                message = edt.Text.ToString().Replace("BBL", "Be Back Later");
+            }
+            else if (edt.Text.Contains("OMG"))
+            {
+                message = edt.Text.ToString().Replace("OMG", "Oh My God");
+            }
+            else if (edt.Text.Contains("TTYL"))
+            {
+                message = edt.Text.ToString().Replace("TTYL", "Talk To You Later");
+            }
 
             int count = messages.Count;
             count++;
@@ -325,6 +341,8 @@ namespace Chatting
                     messages.Count = count;
                     progress.Progress = messages.Count * 10;
                     edt.Text = "";
+
+
                 }
                 else
                     Toast.MakeText(Application.Context, "You have reached the message limit ", ToastLength.Long).Show();
@@ -333,7 +351,7 @@ namespace Chatting
 
 
 
-            
+
 
 
         }
@@ -374,19 +392,19 @@ namespace Chatting
 
             if (requestCode == 98 && resultCode == Result.Ok)
             {
-                string lat= data.GetStringExtra("Lat");
-                string longt= data.GetStringExtra("Longt");
+                string lat = data.GetStringExtra("Lat");
+                string longt = data.GetStringExtra("Longt");
                 edt.Text = lat + " " + longt;
-                
+
             }
             if (requestCode == 99 && resultCode == Result.Ok)
             {
-                string bitmapName= data.GetStringExtra("image");
+                string bitmapName = data.GetStringExtra("image");
                 edt.Text = bitmapName;
                 // string uriName= data.GetStringExtra("image3");
 
 
-                  string filePath = data.GetStringExtra("image2");
+                string filePath = data.GetStringExtra("image2");
                 byte[] imageArray = System.IO.File.ReadAllBytes(filePath);
                 Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
                 img.SetImageBitmap(bitmap);
@@ -404,6 +422,6 @@ namespace Chatting
         }
     }
 
-    
+
 
 }
