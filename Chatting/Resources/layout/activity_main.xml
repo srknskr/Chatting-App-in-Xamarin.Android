@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:src="@drawable/messenger"
+        android:src="@drawable/message"
         android:layout_width="99.0dp"
         android:layout_height="99.0dp"
         android:id="@+id/ımageView1"
