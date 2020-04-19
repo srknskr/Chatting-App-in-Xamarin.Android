@@ -281,7 +281,7 @@ namespace Chatting
                                   .SetContentIntent(resultPendingIntent) // Start up this activity when the user clicks the intent.
                                   .SetContentTitle("Button Clicked") // Set the title
                                   .SetNumber(count) // Display the count in the Content Info
-                                  .SetSmallIcon(Resource.Drawable.messenger) // This is the icon to display
+                                  .SetSmallIcon(Resource.Drawable.message) // This is the icon to display
                                   .SetContentText($"You have {count} messages.") // the message to display.
                                   .SetVibrate(new long[] { 500, 1000 })
                                   .SetLights(Color.Red, 3000, 3000)
