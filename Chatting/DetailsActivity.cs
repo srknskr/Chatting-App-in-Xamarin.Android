@@ -39,8 +39,9 @@ namespace Chatting
         {
             var intent = new Intent(this, typeof(MessageActivity));
             intent.PutExtra("PeoplePosition", position);
-            StartActivity(intent);
+            StartActivityForResult(intent,30);
            // intent.PutExtra("ItemPosition", position);
         }
+       
     }
 }

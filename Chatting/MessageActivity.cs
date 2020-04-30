@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 using Android.App;
 using Android.Content;
@@ -41,10 +42,7 @@ namespace Chatting
         Button locationButton;
         Button currencyButton;
 
-        string filePath;
 
-        private File _dir;
-        private File _file;
 
 
 
@@ -53,8 +51,7 @@ namespace Chatting
         static readonly string CHANNEL_ID = "location_notification";
         internal static readonly string COUNT_KEY = "count";
 
-        // Number of times the button is tapped (starts with first tap):
-        int count = 1;
+
 
 
 
@@ -230,8 +227,9 @@ namespace Chatting
             var messages = MessageData.ContactMessages[position];
             string message = edt.Text.ToString();
 
-            if (edt.Text.Contains("ASAP")){
-              message = edt.Text.ToString().Replace("ASAP", "As Soon As Possible");
+            if (edt.Text.Contains("ASAP"))
+            {
+                message = edt.Text.ToString().Replace("ASAP", "As Soon As Possible");
             }
             else if (edt.Text.Contains("BBL"))
             {
@@ -261,8 +259,8 @@ namespace Chatting
                     var resultIntent = new Intent(this, typeof(MessageActivity));
                     resultIntent.PutExtra("PeoplePosition", position);
                     //    StartActivity(resultIntent);
-                    
-                    
+
+
 
                     // Pass some values to SecondActivity:
                     resultIntent.PutExtras(valuesForActivity);
@@ -402,8 +400,8 @@ namespace Chatting
             if (requestCode == 99 && resultCode == Result.Ok)
             {
                 string bitmapName = data.GetStringExtra("bitmap");
-                
-               
+
+
                 // string uriName= data.GetStringExtra("image3");
 
 

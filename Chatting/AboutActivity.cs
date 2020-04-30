@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -21,6 +22,8 @@ namespace Chatting
 
             SetContentView(Resource.Layout.About);
             FindViewById<Button>(Resource.Id.learnMoreButton).Click += OnLearnMoreClick;
+
+            
         }
 
         private void OnLearnMoreClick(object sender, EventArgs e)

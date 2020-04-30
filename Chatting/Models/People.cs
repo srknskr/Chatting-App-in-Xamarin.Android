@@ -11,22 +11,22 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+
 namespace Chatting
 {
-    
+  
     public class People
     {
+        
+        public string Name { get; set; }
+       
+        public string Image { get; set; }
+
         public People(string name, string image)
         {
             Name = name;
             Image = image;
-
         }
-        public string Name { get; set; }
-        public string Image { get; set; }
-
-
-
         public override string ToString()
         {
             return Name;

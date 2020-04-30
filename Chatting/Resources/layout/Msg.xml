@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1">
+
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/msgList" />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/msgText" 
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+
+     <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2">
+
+        <ImageView
+            android:src="@drawable/picture"
+            android:layout_width="93.5dp"
+            android:layout_height="49.0dp"
+            android:id="@+id/msgimg"
+             
+            
+            />
+
+        <Button
+            android:text="CAMERA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cameraBtn"
+          />
+        <Button
+            android:text="LOCATION"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/locationBtn"
+                      />
+
+        <Button
+            android:text="$"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/currencyBtn"
+/>
+
+    </LinearLayout>
+     
+     <Button
+        android:layout_width="85.5dp"
+        android:layout_height="54.5dp"
+        android:id="@+id/sendBtn"
+        android:drawableLeft="@android:drawable/ic_menu_send"
+        android:layout_marginLeft="275dp" 
+        />
+        <Button
+        android:layout_width="85.5dp"
+        android:layout_height="54.5dp"
+        android:id="@+id/deletebutton"
+        android:drawableLeft="@android:drawable/ic_delete"
+        android:layout_marginLeft="275dp" 
+        />
+    </LinearLayout>

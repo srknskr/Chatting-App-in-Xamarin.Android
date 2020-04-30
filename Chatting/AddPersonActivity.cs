@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -33,6 +34,8 @@ namespace Chatting
             FindViewById<Button>(Resource.Id.uploadButton).Click += OnUploadButton;
             ImgView = (ImageView)FindViewById(Resource.Id.imageView);
             name= FindViewById<EditText>(Resource.Id.nameInput);
+
+            
         }
 
         private void OnUploadButton(object sender, EventArgs e)
@@ -101,10 +104,13 @@ namespace Chatting
             Finish();
         }
 
-        public void OnSaveClick(object sender, EventArgs e)
+        public  void OnSaveClick(object sender, EventArgs e)
         {
             string name = FindViewById<EditText>(Resource.Id.nameInput).Text;
             string image = filePath;
+
+           
+
             var intent = new Intent();
             intent.PutExtra("PersonName", name);
             intent.PutExtra("Image", image);

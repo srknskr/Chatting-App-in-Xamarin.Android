@@ -20,7 +20,7 @@ namespace Chatting
 
         public Message(string name, int count, string message1, string message2, string message3, string message4, string message5, string message6, string message7, string message8, string message9, string message10)
         {
-            Name = name;  
+            Name = name;
             Count = count;
             Message1 = message1;
             Message2 = message2;

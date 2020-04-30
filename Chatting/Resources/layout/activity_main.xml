@@ -44,7 +44,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/aboutButton"
-        android:drawableLeft="@android:drawable/ic_menu_info_details"/>
+        android:drawableLeft="@android:drawable/ic_menu_info_details"/> <Button
+        android:text="AddContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contactButton" />
     <TextView
         android:text="Shake your device to add person"
         android:textAppearance="?android:attr/textAppearanceSmall"

@@ -10,6 +10,7 @@ using Android;
 using System.Drawing;
 using Chatting.Services;
 using Android.Provider;
+using System.Threading.Tasks;
 
 namespace Chatting
 {
@@ -22,7 +23,11 @@ namespace Chatting
         Manifest.Permission.WriteExternalStorage,
         Manifest.Permission.Camera
         };
+
+       
         public static List<People> PeopleList = new List<People>();
+
+      
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,38 +47,47 @@ namespace Chatting
             FindViewById<Button>(Resource.Id.peopleButton).Click += OnPeopleClick;
             FindViewById<Button>(Resource.Id.addPersonButton).Click += OnAddPersonClick;
             FindViewById<Button>(Resource.Id.aboutButton).Click += OnAboutClick;
+            FindViewById<Button>(Resource.Id.contactButton).Click += AddContactClick;
 
             /////////////////////////////////
             ///
-            
+
             string intentAction;
             string title;
 
-            
-             //   intentAction = MediaStore.IntentActionStillImageCamera;
-                title = "Camera";
-            
+
+            //   intentAction = MediaStore.IntentActionStillImageCamera;
+            title = "Camera";
+
            
-            
+
             var intent = new Intent(this, typeof(ShakeToLaunchService));
             intent.PutExtra("Title", title);
-           // intent.PutExtra("Action", intentAction);
+            // intent.PutExtra("Action", intentAction);
             //intent.PutExtra("Notification", switchNotification.Checked);
 
-          StartService(intent);
+            StartService(intent);
 
-         
-
-
+          
+            
             //////////////////
 
 
         }
 
+        private void AddContactClick(object sender, EventArgs e)
+        {
+            var intent = new Intent(this, typeof(AddContactActivity));
+            StartActivity(intent);
+        }
+
         private void OnPeopleClick(object sender, EventArgs e)
         {
+
             var intent = new Intent(this, typeof(PeopleActivity));
             StartActivity(intent);
+
+
         }
 
         public void OnAddPersonClick(object sender, EventArgs e)
@@ -90,7 +104,7 @@ namespace Chatting
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            
+
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
@@ -103,10 +117,11 @@ namespace Chatting
 
                 Toast.MakeText(Android.App.Application.Context, image, ToastLength.Short).Show();
 
-              
+
 
                 MainActivity.PeopleList.Add(new People(name, image));
                 MessageData.ContactMessages.Add(new Message(name, 0, "", "", "", "", "", "", "", "", "", ""));
+                
             }
 
             else if (requestCode == 99 && resultCode == Result.Ok)
@@ -117,7 +132,7 @@ namespace Chatting
 
             }
         }
-        
+
 
     }
 }

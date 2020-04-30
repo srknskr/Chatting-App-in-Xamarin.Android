@@ -12,14 +12,13 @@ using Android.Widget;
 
 namespace Chatting
 {
-	public static class MessageData
-	{
-		public static List<Message> ContactMessages { get;  set; }
-
-		static MessageData()
-		{
-			var temp = new List<Message>();
-			ContactMessages = temp.OrderBy(i => i.Name).ToList();
-		}
-	}
+    [Activity(Label = "denemeActivity")]
+    public class denemeActivity : Activity
+    {
+        
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            
+        }
+    }
 }

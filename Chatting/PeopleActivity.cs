@@ -16,15 +16,17 @@ namespace Chatting
     public class PeopleActivity : Activity
     {
         
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.People);
+           
             var lv = FindViewById<ListView>(Resource.Id.listView);
 
 
-            lv.Adapter = new ArrayAdapter<People>(this, Android.Resource.Layout.SimpleListItem1, Android.Resource.Id.Text1, MainActivity.PeopleList);
+            lv.Adapter = new ArrayAdapter<People>(this, Android.Resource.Layout.SimpleListItem1, Android.Resource.Id.Text1, MainActivity.PeopleList); ;
 
 
             lv.ItemClick += OnPeopleClick;
