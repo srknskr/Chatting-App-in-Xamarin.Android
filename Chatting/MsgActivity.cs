@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using SQLite;
-using SQLite.Net.Platform.XamarinAndroid;
-using static Android.Provider.SyncStateContract;
+using Android.Support.V4.App;
+
+using Java.Lang;
 
 namespace Chatting
 {
@@ -23,7 +20,7 @@ namespace Chatting
         //string folder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
 
         MesssageDatabaseLayer db;
-       
+
         int position;
 
         List<Msg> messageSource;
@@ -40,11 +37,17 @@ namespace Chatting
         Button cameraButton;
         Button locationButton;
         Button currencyButton;
+
+        static readonly int NOTIFICATION_ID = 1000;
+        static readonly string CHANNEL_ID = "location_notification";
+        internal static readonly string COUNT_KEY = "count";
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            CreateNotificationChannel();
+
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Msg);
-
+            progress = FindViewById<ProgressBar>(Resource.Id.progressBar3);
             MessageList = FindViewById<ListView>(Resource.Id.msgList);
             edt = FindViewById<EditText>(Resource.Id.msgText);
             var sendButton = FindViewById<Button>(Resource.Id.sendBtn);
@@ -65,8 +68,8 @@ namespace Chatting
             db = new MesssageDatabaseLayer();
             db.CreateDatabase();
             LoadData();
-              
 
+            // progress.Progress = messageSource.Count * 10;
 
             MessageList.ItemClick += (s, e) =>
             {
@@ -80,9 +83,9 @@ namespace Chatting
                 }
 
 
-                //Binding Data  
-                var txtName = e.View.FindViewById<TextView>(Resource.Id.textName);
-                var txtSurname = e.View.FindViewById<TextView>(Resource.Id.textSurname);
+                ////Binding Data  
+                //var txtName = e.View.FindViewById<TextView>(Resource.Id.textName);
+                //var txtSurname = e.View.FindViewById<TextView>(Resource.Id.textSurname);
 
 
 
@@ -104,21 +107,22 @@ namespace Chatting
             }
             else
             {
-                List < Msg> MessageId = db.SelectMessageId(position);
+                List<Msg> MessageId = db.SelectMessageId(position);
                 //MessageId.Sort();
                 //for (int i = 0; i < MessageId.Count; i++)
                 //{
                 //    var item = MessageId[i];
-                    
+
 
                 //}
                 //if (MessageId.Count > 0)
                 //{
                 //    var item = MessageId[MessageId.Count - 1];
                 //}
-                messageSource.RemoveAt(messageSource.Count - 1); 
+                messageSource.RemoveAt(messageSource.Count - 1);
 
                 db.DeleteMessage(position);
+                edt.Text = "";
                 LoadData();
             }
         }
@@ -128,6 +132,9 @@ namespace Chatting
             messageSource = db.SelectTable(position);
             var adapter = new MessageListViewAdaptor(this, messageSource);
             MessageList.Adapter = adapter;
+            progress.Progress = messageSource.Count * 10;
+
+
         }
 
 
@@ -176,27 +183,113 @@ namespace Chatting
                 Message = edt.Text.ToString()
 
             };
-            db.Insert(message);
-            LoadData();
+            if (edt.Text.Contains("ASAP"))
+            {
+                message.Message = edt.Text.ToString().Replace("ASAP", "As Soon As Possible");
+            }
+            else if (edt.Text.Contains("BBL"))
+            {
+                message.Message = edt.Text.ToString().Replace("BBL", "Be Back Later");
+            }
+            else if (edt.Text.Contains("OMG"))
+            {
+                message.Message = edt.Text.ToString().Replace("OMG", "Oh My God");
+            }
+            else if (edt.Text.Contains("TTYL"))
+            {
+                message.Message = edt.Text.ToString().Replace("TTYL", "Talk To You Later");
+            }
 
-            edt.Text = "";
+            int count = messageSource.Count;
+
+            if (edt.Text != "")
+            {
+                if (count < 10)
+                {
+                    db.Insert(message);
+                    edt.Text = "";
+                    LoadData();
+
+
+                    // Pass the current button press count value to the next activity:
+                    var valuesForActivity = new Bundle();
+                    valuesForActivity.PutInt(COUNT_KEY, count);
+
+                    // When the user clicks the notification, SecondActivity will start up.
+                    var resultIntent = new Intent(this, typeof(AddContactActivity));
+                    resultIntent.PutExtra("PeoplePosition", position);
+                    //    StartActivity(resultIntent);
+
+
+
+                    // Pass some values to SecondActivity:
+                    resultIntent.PutExtras(valuesForActivity);
+
+                    // Construct a back stack for cross-task navigation:
+                    var stackBuilder = Android.Support.V4.App.TaskStackBuilder.Create(this);
+                    stackBuilder.AddParentStack(Class.FromType(typeof(AddContactActivity)));
+                    stackBuilder.AddNextIntent(resultIntent);
+
+                    // Create the PendingIntent with the back stack:            
+                    var resultPendingIntent = stackBuilder.GetPendingIntent(0, (int)PendingIntentFlags.UpdateCurrent);
+
+                    // Build the notification:
+                    var builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                                  .SetAutoCancel(true) // Dismiss the notification from the notification area when the user clicks on it
+                                  .SetContentIntent(resultPendingIntent) // Start up this activity when the user clicks the intent.
+                                  .SetContentTitle("Button Clicked") // Set the title
+                                  .SetNumber(count) // Display the count in the Content Info
+                                  .SetSmallIcon(Resource.Drawable.message) // This is the icon to display
+                                  .SetContentText($"You have {count + 1} messages.") // the message to display.
+                                  .SetVibrate(new long[] { 500, 1000 })
+                                  .SetLights(Color.Red, 3000, 3000)
+                                  .SetSound(Android.Net.Uri.Parse("uri://sadfasdfasdf.mp3"));
+
+
+
+                    // Finally, publish the notification:
+                    var notificationManager = NotificationManagerCompat.From(this);
+                    notificationManager.Notify(NOTIFICATION_ID, builder.Build());
 
 
 
 
 
 
-            //position = Intent.GetIntExtra("PeoplePosition", -1);
-            //var messages =messageSource[position];
-            //string mes = edt.Text.ToString();
-
-            //messages.Message = mes;
 
 
-            //db.Insert(messages);
-            //LoadData();
+
+
+
+
+
+
+                }
+                else
+                    Toast.MakeText(Application.Context, "You have reached the message limit ", ToastLength.Long).Show();
+            }
+
         }
+        void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification 
+                // channel on older versions of Android.
+                return;
+            }
 
+            var name = Resources.GetString(Resource.String.channel_name);
+            var description = GetString(Resource.String.channel_description);
+            var channel = new NotificationChannel(CHANNEL_ID, name, NotificationImportance.Default)
+            {
+                Description = description
+            };
+
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            notificationManager.CreateNotificationChannel(channel);
+        }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);

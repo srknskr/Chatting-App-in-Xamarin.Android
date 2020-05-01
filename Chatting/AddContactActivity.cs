@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
+using Plugin.Media;
 
 namespace Chatting
 {
     [Activity(Label = "AddContactActivity")]
     public class AddContactActivity : Activity
     {
-        
+        ImageView img;
+        public string filePath;
         ListView List;
         public static List<Person> listSource = new List<Person>();
         int position;
@@ -38,8 +37,10 @@ namespace Chatting
             List = FindViewById<ListView>(Resource.Id.PersonListView);
             List.ItemClick += List_ItemClick;
             edtName = FindViewById<EditText>(Resource.Id.edtName);
-            var edtSurname = FindViewById<EditText>(Resource.Id.edtSurname);
+            //var edtSurname = FindViewById<EditText>(Resource.Id.edtSurname);
             var btnAdd = FindViewById<Button>(Resource.Id.addButton);
+            img = FindViewById<ImageView>(Resource.Id.contactimage);
+            img.Click += İmg_Click;
             LoadData();
 
             btnAdd.Click += delegate
@@ -47,13 +48,15 @@ namespace Chatting
                 Person person = new Person()
                 {
                     Name = edtName.Text,
-                    Image = edtSurname.Text,
+                    Image = filePath,
                   
 
 
 
                 };
                 db.Insert(person);
+                edtName.Text = "";
+                img.SetImageResource(Resource.Drawable.picture); 
                 LoadData();
             };
 
@@ -83,6 +86,34 @@ namespace Chatting
             //    intent.PutExtra("PeoplePosition", position);
             //    StartActivity(intent);
             //};
+        }
+
+        public void İmg_Click(object sender, EventArgs e)
+        {
+            UploadPhoto();
+        }
+        async void UploadPhoto()
+        {
+            await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsTakePhotoSupported)
+            {
+                Toast.MakeText(this, "Upload not suported ", ToastLength.Short).Show();
+                return;
+            }
+
+            var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+            {
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small,
+                CompressionQuality = 40
+            });
+
+
+            filePath = file.Path;
+            byte[] imageArray = System.IO.File.ReadAllBytes(filePath);
+            Android.Graphics.Bitmap bitmap = BitmapFactory.DecodeByteArray(imageArray, 0, imageArray.Length);
+            img.SetImageBitmap(bitmap);
+
         }
 
         private void List_ItemClick(object sender, AdapterView.ItemClickEventArgs e)

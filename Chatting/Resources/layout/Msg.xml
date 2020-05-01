@@ -30,6 +30,14 @@
             android:id="@+id/msgText" 
             android:layout_marginTop="10dp"/>
     </LinearLayout>
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar3"
+        android:layerType="software"
+        android:background="#ff2d78b4" />
+    
 
      <LinearLayout
         android:orientation="horizontal"
