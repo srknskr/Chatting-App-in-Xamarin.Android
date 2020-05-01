@@ -183,7 +183,7 @@ namespace Chatting
                 Message = edt.Text.ToString()
 
             };
-            if (edt.Text.Contains("ASAP"))
+            if (edt.Text.Contains("ASAP")) 
             {
                 message.Message = edt.Text.ToString().Replace("ASAP", "As Soon As Possible");
             }
