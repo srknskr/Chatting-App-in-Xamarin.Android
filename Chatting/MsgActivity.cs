@@ -189,7 +189,7 @@ namespace Chatting
             }
             else if (edt.Text.Contains("BBL"))
             {
-                message.Message = edt.Text.ToString().Replace("BBL", "Be Back Later");
+                message.Message = edt.Text.ToString().Replace("BBL", "Be Back Later"); 
             }
             else if (edt.Text.Contains("OMG"))
             {
