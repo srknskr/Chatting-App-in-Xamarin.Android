@@ -175,7 +175,7 @@ namespace Chatting
             StartActivityForResult(intent, 99);
         }
 
-        private void SendButton_Click(object sender, EventArgs e)
+        private void SendButton_Click(object sender, EventArgs e) 
         {
             Msg message = new Msg()
             {
