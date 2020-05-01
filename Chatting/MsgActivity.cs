@@ -199,7 +199,7 @@ namespace Chatting
             {
                 message.Message = edt.Text.ToString().Replace("TTYL", "Talk To You Later");
             }
-
+             
             int count = messageSource.Count;
 
             if (edt.Text != "")
