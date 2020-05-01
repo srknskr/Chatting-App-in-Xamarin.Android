@@ -181,7 +181,7 @@ namespace Chatting
             {
                 Id = position,
                 Message = edt.Text.ToString()
-                 
+                  
             };
             if (edt.Text.Contains("ASAP")) 
             {
