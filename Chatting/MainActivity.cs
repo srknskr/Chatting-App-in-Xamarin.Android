@@ -18,17 +18,12 @@ namespace Chatting
     public class MainActivity : AppCompatActivity
     {
         readonly string[] permissionGroup =
-           {
-            Manifest.Permission.ReadExternalStorage,
-        Manifest.Permission.WriteExternalStorage,
-        Manifest.Permission.Camera
-        };
+            {Manifest.Permission.ReadExternalStorage,
+            Manifest.Permission.WriteExternalStorage,
+            Manifest.Permission.Camera};
 
-       
         public static List<People> PeopleList = new List<People>();
-
       
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             RequestPermissions(permissionGroup, 0);
@@ -49,9 +44,6 @@ namespace Chatting
             FindViewById<Button>(Resource.Id.aboutButton).Click += OnAboutClick;
             FindViewById<Button>(Resource.Id.contactButton).Click += AddContactClick;
 
-            /////////////////////////////////
-            ///
-
             string intentAction;
             string title;
 
@@ -59,19 +51,12 @@ namespace Chatting
             //   intentAction = MediaStore.IntentActionStillImageCamera;
             title = "Camera";
 
-           
-
             var intent = new Intent(this, typeof(ShakeToLaunchService));
             intent.PutExtra("Title", title);
             // intent.PutExtra("Action", intentAction);
             //intent.PutExtra("Notification", switchNotification.Checked);
 
             StartService(intent);
-
-          
-            
-            //////////////////
-
 
         }
 
@@ -83,11 +68,8 @@ namespace Chatting
 
         private void OnPeopleClick(object sender, EventArgs e)
         {
-
             var intent = new Intent(this, typeof(PeopleActivity));
             StartActivity(intent);
-
-
         }
 
         public void OnAddPersonClick(object sender, EventArgs e)
